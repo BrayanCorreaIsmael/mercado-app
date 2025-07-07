@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import React, { useState } from "react"
 import {
   Alert,
   StyleSheet,
@@ -12,10 +12,10 @@ import {
   ScrollView,
 } from "react-native"
 import { Button, Input } from "@rneui/themed"
-// Eliminar esta línea:
-// import { supabase } from "../lib/supabase"
+import { useNavigation } from '@react-navigation/native'  // Importa el hook de navegación
 
 export default function Auth() {
+  const navigation = useNavigation() // Hook para navegar
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [loading, setLoading] = useState(false)
@@ -35,6 +35,7 @@ export default function Auth() {
     setTimeout(() => {
       setLoading(false)
       Alert.alert("Éxito", "Inicio de sesión exitoso (simulado)")
+      navigation.navigate('Profile') // Navega a Profile después del inicio de sesión
     }, 2000)
   }
 
@@ -65,6 +66,7 @@ export default function Auth() {
     setTimeout(() => {
       setLoading(false)
       Alert.alert("Registro exitoso", `Usuario ${username} registrado correctamente (simulado)`)
+      navigation.navigate('Profile') // Navega a Profile después del registro
     }, 2000)
   }
 
@@ -218,6 +220,7 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     borderRadius: 12,
     padding: 24,
+    // Puedes usar boxShadow si usas react-native-web o dejar shadow props si es móvil nativo:
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
