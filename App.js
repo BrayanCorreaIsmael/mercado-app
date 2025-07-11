@@ -14,7 +14,7 @@ import ProfilePage from "./components/profile"
 import HomeScreen from "./components/homeScreen"
 import Home from "./components/home"
 import DetailProducts from "./components/detailProducts"
-import ChatScreen from "./components/chatScreen"
+//import ChatScreen from "./components/chatScreen"
 
 const Drawer = createDrawerNavigator()
 
@@ -29,7 +29,6 @@ const linking = {
       Home: "home",
       HomeScreen: "homeScreen",
       DetailProducts: "detailProducts/:productoId",
-      ChatScreen: "chat",
     },
   },
 }
@@ -41,7 +40,7 @@ function MyDrawerContent({ navigation }) {
     { title: "Panel", icon: "grid-outline", screen: "HomeScreen" },
     { title: "Productos", icon: "cube-outline", screen: "Products" },
     { title: "Perfil", icon: "person-outline", screen: "Profile" },
-    { title: "Mensajes", icon: "chatbubble-outline", screen: "Chat" },
+    //{ title: "Mensajes", icon: "chatbubble-outline", screen: "ChatScreen" },
   ]
 
   return (
@@ -74,7 +73,8 @@ function MyDrawerContent({ navigation }) {
         ))}
 
         <View style={styles.separator} />
-        <TouchableOpacity
+       
+       {/* <TouchableOpacity
           style={styles.menuItem}
           onPress={() => {
             navigation.navigate("ChatScreen")
@@ -83,7 +83,7 @@ function MyDrawerContent({ navigation }) {
         >
           <Ionicons name="chatbubble-outline" size={24} color="#666" />
           <Text style={styles.menuText}>Mensajes</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
         
         <TouchableOpacity style={styles.menuItem} onPress={() => Alert.alert("Info", "Pedidos próximamente")}>
           <Ionicons name="bag-outline" size={24} color="#666" />
@@ -173,7 +173,7 @@ function AppNavigator() {
         <Drawer.Screen name="DetailProducts" component={DetailProducts} />
         <Drawer.Screen name="Auth" component={Auth} />
         <Drawer.Screen name="MainTabs" component={MainTabNavigator} />
-        <Drawer.Screen name="ChatScreen" component={ChatScreen} />
+        {/* <Drawer.Screen name="ChatScreen" component={ChatScreen} /> */}
       </Drawer.Navigator>
     </NavigationContainer>
   )
