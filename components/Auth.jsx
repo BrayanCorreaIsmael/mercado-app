@@ -1,5 +1,3 @@
-"use client"
-
 import React, { useState } from "react"
 import {
   Alert,
@@ -12,199 +10,109 @@ import {
   ScrollView,
 } from "react-native"
 import { Button, Input } from "@rneui/themed"
-import { useNavigation } from '@react-navigation/native'  // Importa el hook de navegación
+import { useNavigation } from '@react-navigation/native'
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth"
+import { auth } from "../firebaseConfig"
+
 
 export default function Auth() {
-  const navigation = useNavigation() // Hook para navegar
+  const navigation = useNavigation()
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [loading, setLoading] = useState(false)
   const [isSignUp, setIsSignUp] = useState(false)
   const [username, setUsername] = useState("")
-  const [confirmPassword, setConfirmPassword] = useState("")
-
-  async function signInWithEmail() {
-    if (!email || !password) {
-      Alert.alert("Error", "Por favor ingresa tu email y contraseña")
-      return
-    }
-
-    setLoading(true)
-
-    // Simular una llamada a la API
-    setTimeout(() => {
-      setLoading(false)
-      Alert.alert("Éxito", "Inicio de sesión exitoso (simulado)")
-      navigation.navigate('Profile') // Navega a Profile después del inicio de sesión
-    }, 2000)
-  }
 
   async function signUpWithEmail() {
-    if (!email || !password || !username || !confirmPassword) {
-      Alert.alert("Error", "Por favor completa todos los campos")
-      return
-    }
+    try {
+      setLoading(true)
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password)
+      const user = userCredential.user
 
-    if (username.length < 3) {
-      Alert.alert("Error", "El nombre de usuario debe tener al menos 3 caracteres")
-      return
-    }
+      await fetch("http://TU_BACKEND_URL/users/cliente", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          id: user.uid,
+          nombre: username,
+          apellido: "",
+          email: user.email,
+          rol: "cliente"
+        })
+      })
 
-    if (password.length < 6) {
-      Alert.alert("Error", "La contraseña debe tener al menos 6 caracteres")
-      return
-    }
-
-    if (password !== confirmPassword) {
-      Alert.alert("Error", "Las contraseñas no coinciden")
-      return
-    }
-
-    setLoading(true)
-
-    // Simular una llamada a la API
-    setTimeout(() => {
+      Alert.alert("Registro exitoso", `Bienvenido ${username}`)
+      navigation.navigate("Home")
+    } catch (error) {
+      Alert.alert("Error", error.message)
+    } finally {
       setLoading(false)
-      Alert.alert("Registro exitoso", `Usuario ${username} registrado correctamente (simulado)`)
-      navigation.navigate('Profile') // Navega a Profile después del registro
-    }, 2000)
+    }
   }
 
-  async function resetPassword() {
-    if (!email) {
-      Alert.alert("Error", "Por favor ingresa tu email para recuperar la contraseña")
-      return
-    }
-
-    setLoading(true)
-
-    // Simular una llamada a la API
-    setTimeout(() => {
+  async function signInWithEmail() {
+    try {
+      setLoading(true)
+      await signInWithEmailAndPassword(auth, email, password)
+      navigation.navigate("Home")
+    } catch (error) {
+      Alert.alert("Error", error.message)
+    } finally {
       setLoading(false)
-      Alert.alert("Email enviado", "Revisa tu bandeja de entrada para las instrucciones de recuperación (simulado)")
-    }, 1500)
+    }
   }
 
   return (
-    <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === "ios" ? "padding" : "height"}>
+    <KeyboardAvoidingView
+      style={styles.container}
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+    >
       <ScrollView contentContainerStyle={styles.scrollContainer}>
         <View style={styles.formContainer}>
           <Text style={styles.title}>{isSignUp ? "Crear Cuenta" : "Iniciar Sesión"}</Text>
 
-          <View style={styles.inputContainer}>
-            <Input
-              label="Email"
-              leftIcon={{
-                type: "font-awesome",
-                name: "envelope",
-                color: "#666",
-              }}
-              onChangeText={(text) => setEmail(text)}
-              value={email}
-              placeholder="tu@email.com"
-              autoCapitalize="none"
-              keyboardType="email-address"
-              autoComplete="email"
-              inputStyle={styles.inputText}
-              labelStyle={styles.inputLabel}
-            />
-          </View>
+          <Input
+            label="Email"
+            onChangeText={setEmail}
+            value={email}
+            autoCapitalize="none"
+            keyboardType="email-address"
+          />
 
           {isSignUp && (
-            <View style={styles.inputContainer}>
-              <Input
-                label="Nombre de Usuario"
-                leftIcon={{
-                  type: "font-awesome",
-                  name: "user",
-                  color: "#666",
-                }}
-                onChangeText={(text) => setUsername(text)}
-                value={username}
-                placeholder="Tu nombre de usuario"
-                autoCapitalize="none"
-                autoComplete="username"
-                inputStyle={styles.inputText}
-                labelStyle={styles.inputLabel}
-              />
-            </View>
-          )}
-
-          <View style={styles.inputContainer}>
             <Input
-              label="Contraseña"
-              leftIcon={{
-                type: "font-awesome",
-                name: "lock",
-                color: "#666",
-              }}
-              onChangeText={(text) => setPassword(text)}
-              value={password}
-              secureTextEntry={true}
-              placeholder="Tu contraseña"
-              autoCapitalize="none"
-              autoComplete="password"
-              inputStyle={styles.inputText}
-              labelStyle={styles.inputLabel}
+              label="Nombre"
+              onChangeText={setUsername}
+              value={username}
+              autoCapitalize="words"
             />
-          </View>
-
-          {isSignUp && (
-            <View style={styles.inputContainer}>
-              <Input
-                label="Confirmar Contraseña"
-                leftIcon={{
-                  type: "font-awesome",
-                  name: "lock",
-                  color: "#666",
-                }}
-                onChangeText={(text) => setConfirmPassword(text)}
-                value={confirmPassword}
-                secureTextEntry={true}
-                placeholder="Confirma tu contraseña"
-                autoCapitalize="none"
-                autoComplete="password"
-                inputStyle={styles.inputText}
-                labelStyle={styles.inputLabel}
-              />
-            </View>
           )}
 
-          {!isSignUp && (
-            <TouchableOpacity style={styles.forgotPasswordContainer} onPress={resetPassword} disabled={loading}>
-              <Text style={styles.forgotPasswordText}>¿Olvidaste tu contraseña?</Text>
-            </TouchableOpacity>
-          )}
+          <Input
+            label="Contraseña"
+            onChangeText={setPassword}
+            value={password}
+            secureTextEntry={true}
+            autoCapitalize="none"
+          />
 
-          <View style={styles.buttonContainer}>
-            <Button
-              title={isSignUp ? "Registrarse" : "Iniciar Sesión"}
-              disabled={loading}
-              onPress={isSignUp ? signUpWithEmail : signInWithEmail}
-              buttonStyle={styles.primaryButton}
-              titleStyle={styles.primaryButtonText}
-              loading={loading}
-            />
-          </View>
+          <Button
+            title={isSignUp ? "Registrarse" : "Iniciar Sesión"}
+            disabled={loading}
+            onPress={isSignUp ? signUpWithEmail : signInWithEmail}
+          />
 
-          <View style={styles.switchContainer}>
-            <Text style={styles.switchText}>{isSignUp ? "¿Ya tienes una cuenta?" : "¿No tienes una cuenta?"}</Text>
-            <TouchableOpacity
-              onPress={() => {
-                setIsSignUp(!isSignUp)
-                setUsername("") // Limpiar el nombre de usuario al cambiar de modo
-                setConfirmPassword("") // Limpiar la confirmación de contraseña al cambiar de modo
-              }}
-              disabled={loading}
-            >
-              <Text style={styles.switchLink}>{isSignUp ? "Iniciar Sesión" : "Registrarse"}</Text>
-            </TouchableOpacity>
-          </View>
+          <TouchableOpacity onPress={() => setIsSignUp(!isSignUp)}>
+            <Text>
+              {isSignUp ? "¿Ya tienes cuenta? Inicia sesión" : "¿No tienes cuenta? Regístrate"}
+            </Text>
+          </TouchableOpacity>
         </View>
       </ScrollView>
     </KeyboardAvoidingView>
   )
 }
+
 
 const styles = StyleSheet.create({
   container: {

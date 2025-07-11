@@ -1,6 +1,7 @@
-import { useState, useEffect } from "react"
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Image, Dimensions, FlatList } from "react-native"
-import { SafeAreaView } from "react-native"
+import React, { useState, useEffect } from "react"
+import { SafeAreaView, ScrollView, View, Text, StyleSheet, FlatList, Image, Dimensions } from "react-native"
+import { TouchableOpacity } from "react-native";
+
 
 const { width } = Dimensions.get("window")
 
@@ -8,17 +9,17 @@ const { width } = Dimensions.get("window")
 const newsData = [
   {
     id: 1,
-    image: "/placeholder.svg?height=200&width=350",
+    image: "https://images.unsplash.com/photo-1482049016688-2d3e1b311543?q=80&w=710&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     title: "Nueva Promoción de Verano",
   },
   {
     id: 2,
-    image: "/placeholder.svg?height=200&width=350",
+    image: "https://images.unsplash.com/photo-1484723091739-30a097e8f929?q=80&w=749&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     title: "Descuentos Especiales",
   },
   {
     id: 3,
-    image: "/placeholder.svg?height=200&width=350",
+    image: "https://plus.unsplash.com/premium_photo-1675252369719-dd52bc69c3df?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     title: "Nuevos Restaurantes",
   },
 ]
@@ -29,42 +30,42 @@ const restaurantsData = [
     id: 1,
     name: "La Parrilla Argentina",
     rating: 4.5,
-    image: "/placeholder.svg?height=100&width=100",
+    image: "https://images.unsplash.com/photo-1717353237184-86d9d07c78ea?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     category: "Parrilla",
   },
   {
     id: 2,
     name: "Pizzería Don Mario",
     rating: 4.2,
-    image: "/placeholder.svg?height=100&width=100",
+    image: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?q=80&w=781&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     category: "Pizzería",
   },
   {
     id: 3,
     name: "Sushi Zen",
     rating: 4.8,
-    image: "/placeholder.svg?height=100&width=100",
+    image: "https://images.unsplash.com/photo-1600797828610-468bb21b6f8e?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     category: "Japonés",
   },
   {
     id: 4,
     name: "Café Central",
     rating: 4.0,
-    image: "/placeholder.svg?height=100&width=100",
+    image: "https://plus.unsplash.com/premium_photo-1677607237294-b041e4b57391?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     category: "Café",
   },
   {
     id: 5,
     name: "Tacos El Mariachi",
     rating: 4.6,
-    image: "/placeholder.svg?height=100&width=100",
+    image: "https://plus.unsplash.com/premium_photo-1679231520250-8c3f57b99473?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     category: "Mexicano",
   },
   {
     id: 6,
     name: "Pasta Italiana",
     rating: 4.3,
-    image: "/placeholder.svg?height=100&width=100",
+    image:  "https://plus.unsplash.com/premium_photo-1677000666761-ff476a65c8ba?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     category: "Italiano",
   },
 ]
@@ -169,7 +170,7 @@ export default function Home({ navigation }) {
       <ScrollView style={styles.scrollView}>
         {/* Header */}
         <View style={styles.header}>
-          <Text style={styles.headerTitle}>¡Bienvenido!</Text>
+          <Text style={styles.headerTitle}>Tu mercado de confianza</Text>
           <Text style={styles.headerSubtitle}>Descubre los mejores sabores</Text>
         </View>
 
@@ -336,6 +337,6 @@ const styles = StyleSheet.create({
   ratingText: {
     marginLeft: 5,
     fontSize: 12,
-    color: "#666",
-  },
+    color: "#666",
+  },
 })

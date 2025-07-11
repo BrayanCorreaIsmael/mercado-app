@@ -24,8 +24,8 @@ export default function ProfileScreen() {
     phone: "+1 234 567 8900",
     email: "info@pizzeriadonmario.com",
     website: "www.pizzeriadonmario.com",
-    logo: "https://via.placeholder.com/150x150",
-    coverImage: "https://via.placeholder.com/800x300",
+    logo: "https://scontent.fcor10-3.fna.fbcdn.net/v/t51.75761-15/475908950_17941432202952915_3220627644318161277_n.jpg?stp=dst-jpg_tt6&_nc_cat=107&ccb=1-7&_nc_sid=127cfc&_nc_ohc=TEPc26iAAjsQ7kNvwH4X2uO&_nc_oc=AdmgVnFZroySEAMRBVdcy5hKvLIZvFK8y1G6VNfwKCweEwO7QaalFoRxyxsXDB9q324&_nc_zt=23&_nc_ht=scontent.fcor10-3.fna&_nc_gid=jkL6UmTjvTcKSBoSlTaORQ&oh=00_AfSf119I2YWiuTQw6t8cJN228M8FZ6F0assIG2TpmWO9Og&oe=6871077B",
+    coverImage: "https://unsplash.com/es/fotos/un-letrero-de-neon-colgando-del-techo-de-un-edificio-qCGvQDxliS4",
     openingHours: {
       monday: { open: "11:00", close: "22:00", isOpen: true },
       tuesday: { open: "11:00", close: "22:00", isOpen: true },
